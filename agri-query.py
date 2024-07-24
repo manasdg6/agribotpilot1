@@ -4,15 +4,15 @@ from langchain_community.embeddings import OpenAIEmbeddings
 from langchain_community.chat_models import ChatOpenAI
 from langchain.chains import ConversationalRetrievalChain
 from langchain_community.vectorstores import FAISS
-
+import os
 import streamlit as st
 from dotenv import load_dotenv
 load_dotenv()
 
 def query(question, chat_history):
-    embeddings = OpenAIEmbeddings()
+    embeddings = OpenAIEmbeddings(openai_api_key=os.getenv("OPENAI_API_KEY"))
     new_db = FAISS.load_local("agri_index", embeddings, allow_dangerous_deserialization=True)
-    llm = ChatOpenAI(model_name="gpt-4o", temperature=0)
+    llm = ChatOpenAI(model_name="gpt-4o", temperature=0, openai_api_key=os.getenv("OPENAI_API_KEY"))
 
     # Initialize a ConversationalRetrievalChain
     query = ConversationalRetrievalChain.from_llm(
