@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 def query(question, chat_history):
-    embeddings = OpenAIEmbeddings(openai_api_key=os.getenv("OPENAI_API_KEY"))
+    embeddings = OpenAIEmbeddings()
     new_db = FAISS.load_local("agri_index", embeddings, allow_dangerous_deserialization=True)
     llm = ChatOpenAI(model_name="gpt-4o", temperature=0, openai_api_key=os.getenv("OPENAI_API_KEY"))
 
