@@ -8,11 +8,13 @@ import os
 import streamlit as st
 from dotenv import load_dotenv
 load_dotenv()
+api_key = os.getenv("OPENAI_API_KEY")
+os.environ["OPENAI_API_KEY"] = api_key
 
 def query(question, chat_history):
     embeddings = OpenAIEmbeddings()
     new_db = FAISS.load_local("agri_index", embeddings, allow_dangerous_deserialization=True)
-    llm = ChatOpenAI(model_name="gpt-4o", temperature=0, openai_api_key=os.getenv("OPENAI_API_KEY"))
+    llm = ChatOpenAI(model_name="gpt-4o", temperature=0)
 
     # Initialize a ConversationalRetrievalChain
     query = ConversationalRetrievalChain.from_llm(
